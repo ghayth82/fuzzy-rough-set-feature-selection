@@ -6,5 +6,5 @@ This is a Python implementation of ![this](https://www.researchgate.net/publicat
 
 ##  Contributors
 
-Rajat Bhatta
+Rajat Bhatta <br>
 Rajvijay
