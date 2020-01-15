@@ -1,16 +1,65 @@
 MAX_INT = 10
+
 import math
 from pprint import pprint as pp
 from heapq import *
 
 class InstanceSelection:
+	"""
+	A class to model pipeline for selecting representative instances
+	of a given dataset
+
+	Attirbutes
+	-----------
+	dataset_matrix : a 2-D matrix of real numbers
+	nrows		   : no. of rows in the dataset 
+	ncols		   : no. of columns in the dataset
+	fuzzy_relation_matrix : a 2-D matrix with fuzzy relation values
+	lower_approx_matrix : a 1-D list of lower approximation values of each instance
+	visited			: to keep track of processed instances while finding rule covering
+	representative_instances_list : a list of list of representative instances of the dataset 
+
+
+	Methods
+	------------
+	_init_params():
+		Initializes various parameters
+
+	_get_relation_value(val_i,val_j)
+		Calculates fuzzy relation value  
+
+	_is_instance_covered(row_index_i,row_index_j)
+		Tells if an instance is covered by a fuzzy rule
+
+	compute_fuzzy_relations()
+		Computes fuzzy relation matrix
+
+	compute_lower_approximation()
+		Computes Lower approximation matrix
+
+	_init_count_rule()
+		Counts the number of instances covered by each rule
+
+	find_rule_covering()
+		Finds which instances are covered by which rule and
+		which rules cover which instances
+
+	find_representative_instances()
+		returns a set of list of instances which are representative of the dataset
+
+	apply()
+		calls all the functions 
+	"""
+
 	def __init__(self, dataset_matrix):
+		print("Initialising instance..")
 		self.dataset_matrix = dataset_matrix
 		self.ncols = len(self.dataset_matrix[0])
 		self.nrows = len(self.dataset_matrix)
 		self._init_params()
 
 	def _init_params(self):
+		print("Initialising parameters..")
 		self.fuzzy_relation_matrix = [[MAX_INT] * self.nrows for i in range(self.nrows)]
 		self.rule_instances_mapping = [[] for i in range(self.nrows)]
 		self.instance_rules_mapping = [[] for i in range(self.nrows)]
@@ -28,6 +77,7 @@ class InstanceSelection:
 		return False
 
 	def compute_fuzzy_relations(self):
+		print("In compute_fuzzy_relations..")
 		for i in range(self.nrows):
 			for j in range(i,self.nrows):
 				for k in range(self.ncols-1):
@@ -37,16 +87,13 @@ class InstanceSelection:
 					self.fuzzy_relation_matrix[i][j] = self.fuzzy_relation_matrix[j][i] = round(self.fuzzy_relation_matrix[i][j], 2)
 
 	def compute_lower_approximation(self):
+		print("In compute_lower_approximation")
 		for row in range(self.nrows):
 			for col in range(self.nrows):
-				#print(row, col, 1 - self.fuzzy_relation_matrix[row][col], self.dataset_matrix[col][self.ncols-1])
 				self.lower_approx_matrix[row] = min(self.lower_approx_matrix[row], max(1 - self.fuzzy_relation_matrix[row][col], self.dataset_matrix[col][self.ncols-1]))
-				#print(self.lower_approx_matrix)
-			#print()
-		self.lower_approx_matrix = [0.4,0.4,0.3,0.6,0.5,0.5,0.4,0.3,0.4,0.5]
+		# self.lower_approx_matrix = [0.4,0.4,0.3,0.6,0.5,0.5,0.4,0.3,0.4,0.5]
 
 
-		#print(self.lower_approx_matrix)
 
 	def _init_count_rule(self):
 		self.rule_instances_count = []
@@ -54,6 +101,7 @@ class InstanceSelection:
 			self.rule_instances_count.append(len(self.rule_instances_mapping[rule]))
 
 	def find_rule_covering(self):
+		print("In find_rule_covering")
 		for rowi in range(self.nrows):
 			for rowj in range(self.nrows):
 				if self._is_instance_covered(rowi, rowj):
@@ -63,6 +111,7 @@ class InstanceSelection:
 		self._init_count_rule()
 
 	def find_representative_instances(self):
+		print("In find_representative_instances")
 		all_done = True
 		for rule, done in enumerate(self.visited):
 			if not done:
@@ -70,12 +119,9 @@ class InstanceSelection:
 				break
 
 		if all_done:
-			#self.rep_list = [i+1 for i in self.rep_list]
 			sorted_rep_list = sorted(self.rep_list)
 			if sorted_rep_list not in self.representative_instances_list:
 				self.representative_instances_list.append(sorted_rep_list)
-			#print(self.rep_list)
-			#self.rep_list = [i-1 for i in self.rep_list]
 			return
 
 		max_count = -1
@@ -103,8 +149,12 @@ class InstanceSelection:
 			self.visited[rule] = False
 			self.rep_list.pop()
 
-
-
+	def apply(self):
+		self.compute_fuzzy_relations()
+		self.compute_lower_approximation()
+		self.find_rule_covering()
+		self.find_representative_instances()
+	
 	def debug(self):
 		pass
 
