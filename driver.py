@@ -1,4 +1,5 @@
 from instance_selection import InstanceSelection
+from feature_selection import FeatureSelection
 
 def __main__():
 
@@ -15,7 +16,9 @@ def __main__():
 
 	instance_selection_obj = InstanceSelection(matrix)
 	instance_selection_obj.apply()
+	feature_selection_obj = FeatureSelection(instance_selection_obj.representative_instances_list[0])
+	feature_selection_obj.apply(instance_selection_obj)
 	print(instance_selection_obj.representative_instances_list)
-
+	print(feature_selection_obj.rep_feature_set)
 
 __main__()

@@ -4,8 +4,6 @@ import math
 from pprint import pprint as pp
 from heapq import *
 
-function_calls = 0
-
 class InstanceSelection:
 	"""
 	A class to model pipeline for selecting representative instances
@@ -58,6 +56,8 @@ class InstanceSelection:
 		self.dataset_matrix = dataset_matrix
 		self.ncols = len(self.dataset_matrix[0])
 		self.nrows = len(self.dataset_matrix)
+		self.rep_list = []
+		self.representative_instances_list = []
 		self._init_params()
 
 	def _init_params(self):
@@ -67,8 +67,6 @@ class InstanceSelection:
 		self.instance_rules_mapping = [[] for i in range(self.nrows)]
 		self.lower_approx_matrix = [MAX_INT for i in range(self.nrows)]
 		self.visited = [False]*self.nrows
-		self.rep_list = []
-		self.representative_instances_list = []
 
 	def _get_relation_value(self, vali, valj):
 		return (1 - abs(vali - valj))
@@ -78,23 +76,33 @@ class InstanceSelection:
 			return True
 		return False
 
-	def compute_fuzzy_relations(self):
-		print("In compute_fuzzy_relations..")
+	def compute_fuzzy_relations(self, attr_index_list = None):
+		self._init_params()
+		#print("In compute_fuzzy_relations..")
+		if not attr_index_list:
+			attr_index_list = set(list(range(self.ncols-1)))
 		for i in range(self.nrows):
 			for j in range(i,self.nrows):
-				for k in range(self.ncols-1):
+				for k in attr_index_list:
 					self.fuzzy_relation_matrix[i][j] = self.fuzzy_relation_matrix[j][i] = min(self.fuzzy_relation_matrix[i][j], 
 								self._get_relation_value(self.dataset_matrix[i][k], self.dataset_matrix[j][k]))
 					# 3.99999999999999999999 -> 4.00 so that comparison is correct
 					self.fuzzy_relation_matrix[i][j] = self.fuzzy_relation_matrix[j][i] = round(self.fuzzy_relation_matrix[i][j], 2)
-
+	
 	def compute_lower_approximation(self):
-		print("In compute_lower_approximation")
+		#print("In compute_lower_approximation")
 		for row in range(self.nrows):
 			for col in range(self.nrows):
-				self.lower_approx_matrix[row] = min(self.lower_approx_matrix[row], max(1 - self.fuzzy_relation_matrix[row][col], self.dataset_matrix[col][self.ncols-1]))
-		# self.lower_approx_matrix = [0.4,0.4,0.3,0.6,0.5,0.5,0.4,0.3,0.4,0.5]
+				i_label = int(self.dataset_matrix[row][self.ncols-1])
+				j_label = int(self.dataset_matrix[col][self.ncols-1])
 
+				diff_class = 0
+				if(i_label != j_label):
+					diff_class = 1
+
+				self.lower_approx_matrix[row] = min(self.lower_approx_matrix[row], max(1 - self.fuzzy_relation_matrix[row][col], 1 - diff_class))
+
+			self.lower_approx_matrix[row] = round(self.lower_approx_matrix[row], 2)
 
 
 	def _init_count_rule(self):
@@ -115,9 +123,7 @@ class InstanceSelection:
 	def find_representative_instances(self):
 		if(len(self.representative_instances_list)>0):
 			return
-		global function_calls
-		function_calls += 1
-		# print(function_calls)
+
 		all_done = True
 		for rule, done in enumerate(self.visited):
 			if not done:
