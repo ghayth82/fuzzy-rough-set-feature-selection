@@ -4,6 +4,8 @@ import math
 from pprint import pprint as pp
 from heapq import *
 
+function_calls = 0
+
 class InstanceSelection:
 	"""
 	A class to model pipeline for selecting representative instances
@@ -111,7 +113,11 @@ class InstanceSelection:
 		self._init_count_rule()
 
 	def find_representative_instances(self):
-		print("In find_representative_instances")
+		if(len(self.representative_instances_list)>0):
+			return
+		global function_calls
+		function_calls += 1
+		# print(function_calls)
 		all_done = True
 		for rule, done in enumerate(self.visited):
 			if not done:
@@ -143,7 +149,8 @@ class InstanceSelection:
 				self.visited[adj_rule] = True
 
 			self.find_representative_instances()
-
+			if(len(self.representative_instances_list)>0):
+				return
 			for adj_rule in self.rule_instances_mapping[rule]:
 				self.visited[adj_rule] = False
 			self.visited[rule] = False
@@ -154,6 +161,7 @@ class InstanceSelection:
 		self.compute_lower_approximation()
 		self.find_rule_covering()
 		self.find_representative_instances()
+		self.visited = [False]*self.nrows
 	
 	def debug(self):
 		pass
