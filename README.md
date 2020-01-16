@@ -5,5 +5,5 @@ This is a Python implementation of [this](https://www.researchgate.net/publicati
 
 
 ##  Contributors
-    - [Rajat Bhatta](https://github.com/barry-1928)
-    - [Rajvijay](https://github.com/rajvijay68/)
+- [Rajat Bhatta](https://github.com/barry-1928)
+- [Rajvijay](https://github.com/rajvijay68/)
