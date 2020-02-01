@@ -1,0 +1,5 @@
+https://archive.ics.uci.edu/ml/datasets/heart+Disease
+
+https://raw.githubusercontent.com/jbrownlee/Datasets/master/pima-indians-diabetes.data.csv
+
+

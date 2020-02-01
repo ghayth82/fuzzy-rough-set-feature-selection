@@ -9,6 +9,9 @@ import matplotlib.pyplot as plt
 import time
 
 import numpy as np 
+np.random.seed(0)
+
+from test_algos import *
 
 data = pd.read_csv("data/iris.csv")
 labelEncoder = LabelEncoder()
@@ -26,27 +29,41 @@ if len(sys.argv)<2:
     MAX_ITERATIONS = len(data)
 else:
     MAX_ITERATIONS = int(sys.argv[1])
-for size in range(1,MAX_ITERATIONS):
+
+for size in range(MAX_ITERATIONS-1,MAX_ITERATIONS):
     np.random.shuffle(data)
-    start_time = time.time()
     test_data = data[:size]
-    print("Dataset shape : ",test_data.shape)
-    # print(test_data)
+    
+    start_time1 = time.time()
     InstanceSelector = InstanceSelection(test_data)
     InstanceSelector.apply()
+    end_time1 = time.time()
+    algo1_time = end_time1-start_time1
+
+    start_time2 = time.time()
     feature_selection_obj = FeatureSelection(InstanceSelector.representative_instances_list[0])
     feature_selection_obj.apply(InstanceSelector)
-    print("Instance set : ",InstanceSelector.representative_instances_list)
-    print("Feature set : ",feature_selection_obj.rep_feature_set)
-    end_time = time.time()
-    time_taken[size] = end_time-start_time
+    end_time2 = time.time()
+
+    representative_instances = InstanceSelector.representative_instances_list
+    feature_set = list(feature_selection_obj.rep_feature_set)
+    
+    for model in models:
+        test_model(data[:,feature_set],data[:,-1],model)
+
+    # print("Algo 1 time : ",algo1_time)
+    # print("Algo 2 time : ",end_time2-start_time2)
+    # print("Instance set : ",representative_instances)
+    # print("Feature set : ",feature_set)
+    # end_time = time.time()
+    # time_taken[size] = end_time-start_time
 
 
-dataset_size,running_time = list(time_taken.keys()),list(time_taken.values())
+# dataset_size,running_time = list(time_taken.keys()),list(time_taken.values())
 
 
-plt.plot(dataset_size,running_time)
-plt.xlabel("No. of rows")
-plt.ylabel("Time taken")
-plt.show()
-plt.savefig("plots/running_time_iris_%d.png"%MAX_ITERATIONS)
+# plt.plot(dataset_size,running_time)
+# plt.xlabel("No. of rows")
+# plt.ylabel("Time taken")
+# plt.show()
+# plt.savefig("plots/running_time_iris_%d.png"%MAX_ITERATIONS)

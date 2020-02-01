@@ -1,0 +1,9 @@
+Model : DecisionTreeClassifier         , Accuracy : 0.97
+Model : KNeighborsClassifier           , Accuracy : 0.93
+Model : SVC                            , Accuracy : 0.97
+Model : GaussianNB                     , Accuracy : 1.00
+Model : LogisticRegression             , Accuracy : 0.97
+Model : BaggingClassifier              , Accuracy : 0.97
+Model : RandomForestClassifier         , Accuracy : 0.97
+Model : AdaBoostClassifier             , Accuracy : 0.87
+Model : GradientBoostingClassifier     , Accuracy : 0.97

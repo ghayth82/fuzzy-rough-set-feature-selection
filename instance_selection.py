@@ -52,7 +52,7 @@ class InstanceSelection:
 	"""
 
 	def __init__(self, dataset_matrix):
-		print("Initialising instance..")
+		# print("Initialising instance..")
 		self.dataset_matrix = dataset_matrix
 		self.ncols = len(self.dataset_matrix[0])
 		self.nrows = len(self.dataset_matrix)
@@ -61,7 +61,7 @@ class InstanceSelection:
 		self._init_params()
 
 	def _init_params(self):
-		print("Initialising parameters..")
+		# print("Initialising parameters..")
 		self.fuzzy_relation_matrix = [[MAX_INT] * self.nrows for i in range(self.nrows)]
 		self.rule_instances_mapping = [[] for i in range(self.nrows)]
 		self.instance_rules_mapping = [[] for i in range(self.nrows)]
@@ -111,7 +111,7 @@ class InstanceSelection:
 			self.rule_instances_count.append(len(self.rule_instances_mapping[rule]))
 
 	def find_rule_covering(self):
-		print("In find_rule_covering")
+		# print("In find_rule_covering")
 		for rowi in range(self.nrows):
 			for rowj in range(self.nrows):
 				if self._is_instance_covered(rowi, rowj):
