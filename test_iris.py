@@ -48,8 +48,10 @@ for size in range(MAX_ITERATIONS-1,MAX_ITERATIONS):
     representative_instances = InstanceSelector.representative_instances_list
     feature_set = list(feature_selection_obj.rep_feature_set)
     
+    print("{:27s} |{:8s}|{:8s}|{:8s}|{:8s}\n".format("Model","Accuracy","Precision","Recall","F1-score"))
     for model in models:
-        test_model(data[:,feature_set],data[:,-1],model)
+        accuracy,precision,recall,f1 = test_model(data[:,feature_set],data[:,-1],model)
+        print("{:27s} |{:8.2f}|{:8.2f}|{:8.2f}|{:8.2f}".format(type(model).__name__,accuracy,precision,recall,f1))
 
     # print("Algo 1 time : ",algo1_time)
     # print("Algo 2 time : ",end_time2-start_time2)

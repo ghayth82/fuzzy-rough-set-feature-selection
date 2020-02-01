@@ -67,8 +67,10 @@ for size in range(MAX_ITERATIONS-1,MAX_ITERATIONS):
     # time_taken[size] = end_time-start_time
     print(len(InstanceSelector.representative_instances_list[0]))
     
+    print("{:27s} |{:8s}|{:8s}|{:8s}|{:8s}\n".format("Model","Accuracy","Precision","Recall","F1-score"))
     for model in models:
-        test_model(data[:,feature_set],data[:,-1],model)
+        accuracy,precision,recall,f1 = test_model(data[:,feature_set],data[:,-1],model)
+        print("{:27s} |{:8.2f}|{:8.2f}|{:8.2f}|{:8.2f}".format(type(model).__name__,accuracy,precision,recall,f1))
 
 # dataset_size,running_time = list(time_taken.keys()),list(time_taken.values())
 

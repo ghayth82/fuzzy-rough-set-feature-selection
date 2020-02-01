@@ -30,8 +30,9 @@ def test_model(data,target,model):
     model.fit(train_x,train_y)
     predictions = model.predict(test_x)
     accuracy = accuracy_score(predictions,test_y)
-    # f1score = f1_score(predictions,test_y)
-    # precisionscore = precision_score(predictions,test_y)
-    # recallscore = recall_score(predictions,test_y)
-
-    print("Model : {:30s} , Accuracy : {:.2f}".format(type(model).__name__,accuracy))
+    precision = precision_score(predictions,test_y,average='micro')
+    recall = recall_score(predictions,test_y,average='micro')
+    f1 = f1_score(predictions,test_y,average='micro')
+    
+    
+    return accuracy,precision,recall,f1
