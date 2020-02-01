@@ -40,7 +40,6 @@ else:
     MAX_ITERATIONS = int(sys.argv[1])
 
 for size in range(MAX_ITERATIONS-1,MAX_ITERATIONS):
-    print("No. of rows : ",size)
     np.random.shuffle(data)
     test_data = data[:size]
 
@@ -65,9 +64,10 @@ for size in range(MAX_ITERATIONS-1,MAX_ITERATIONS):
     feature_set = list(feature_selection_obj.rep_feature_set)
     # print("Feature set : ",feature_set)
     # time_taken[size] = end_time-start_time
-    print(len(InstanceSelector.representative_instances_list[0]))
+    # print(len(InstanceSelector.representative_instances_list[0]))
     
-    print("{:27s} |{:8s}|{:8s}|{:8s}|{:8s}\n".format("Model","Accuracy","Precision","Recall","F1-score"))
+    print("{:27s} |{:8s}|{:8s}|{:8s}|{:8s}".format("Model","Accuracy","Precision","Recall","F1-score"))
+    print("-"*65)
     for model in models:
         accuracy,precision,recall,f1 = test_model(data[:,feature_set],data[:,-1],model)
         print("{:27s} |{:8.2f}|{:8.2f}|{:8.2f}|{:8.2f}".format(type(model).__name__,accuracy,precision,recall,f1))

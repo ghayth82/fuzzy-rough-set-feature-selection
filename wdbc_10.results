@@ -1,0 +1,11 @@
+Model                       |Accuracy|Precision|Recall  |F1-score
+-----------------------------------------------------------------
+DecisionTreeClassifier      |    0.92|    0.92|    0.92|    0.92
+KNeighborsClassifier        |    0.94|    0.94|    0.94|    0.94
+SVC                         |    0.93|    0.93|    0.93|    0.93
+GaussianNB                  |    0.93|    0.93|    0.93|    0.93
+LogisticRegression          |    0.93|    0.93|    0.93|    0.93
+BaggingClassifier           |    0.91|    0.91|    0.91|    0.91
+RandomForestClassifier      |    0.90|    0.90|    0.90|    0.90
+AdaBoostClassifier          |    0.94|    0.94|    0.94|    0.94
+GradientBoostingClassifier  |    0.93|    0.93|    0.93|    0.93

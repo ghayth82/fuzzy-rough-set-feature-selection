@@ -5,10 +5,13 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score,f1_score,precision_score,recall_score
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
-from sklearn.ensemble import (BaggingClassifier,BaggingRegressor,
-RandomForestClassifier,RandomForestRegressor,
-AdaBoostClassifier,AdaBoostRegressor,
-GradientBoostingClassifier,GradientBoostingRegressor)
+
+from sklearn.ensemble import (
+    BaggingClassifier,BaggingRegressor,
+    RandomForestClassifier,RandomForestRegressor,
+    AdaBoostClassifier,AdaBoostRegressor,
+    GradientBoostingClassifier,GradientBoostingRegressor
+)
 
 import warnings
 warnings.filterwarnings('ignore') 
