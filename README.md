@@ -7,3 +7,15 @@ This is a Python implementation of [this](https://www.researchgate.net/publicati
 ##  Contributors
 - [Rajat Bhatta](https://github.com/barry-1928)
 - [Rajvijay](https://github.com/rajvijay68/)
+
+
+## Requirements
+- Python 3.x
+- pandas
+- numpy
+- sklearn
+
+
+## Instructions
+- pip install -r requirements.txt
+- python test_iris.py <NUMBER_OF_ROWS>
